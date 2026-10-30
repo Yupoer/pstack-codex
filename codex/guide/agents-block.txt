@@ -1,0 +1,3 @@
+<!-- pstack:begin -->
+Before following any pstack skill (poteto-mode, how, why, swarm, the principle-* skills, and the rest), read `~/.codex/pstack/codex-adapter.md`. It replaces the Claude Code adapter those skills mention.
+<!-- pstack:end -->

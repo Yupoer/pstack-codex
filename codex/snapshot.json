@@ -1,0 +1,16 @@
+{
+  "pstackVersion": "0.15.36",
+  "upstream": "https://github.com/cursor/plugins",
+  "upstreamCommit": "4dd1d05818d19792e7cd6e818f1667f95f7e1dbe",
+  "customFiles": {
+    "codex/.gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "codex/codex-adapter.md": "0b52b23295158ac69a0eed3da02ba0dd562897840f1b4aedc588a9e470cde8a4",
+    "codex/guide/agents-block.txt": "1fe4910ed221d17e0c7524d5ec135b553dfd6bea102a7316926ef121aafb6633",
+    "codex/guide/gen-guide.sh": "1b9d05dec8f51ee244940f0de3dbc06b02759ac4345602e2b1d2dbde21262c56",
+    "codex/guide/template.md": "a175382e97049696fa42215b16beaf7920e52b6f8fd8ac68ff4e07b2934535d7",
+    "codex/pstack-delegate.ps1": "bf45dafc3ad291f76db17f910409eefffa6cea1b0236151e77af63c22c475de1",
+    "codex/README.md": "093aaad8088b5f934339169653d960e475a66e6ecb061e68ece45baad2d85967",
+    "codex/rules/pstack-models.md": "fdaac1c078edbf431bf4b5c4e6ce83ae5ee5f71f91a3d7246336d793e87bb4b1",
+    "codex/sync-pstack.ps1": "d67b39cc6df7c04731a06eacbd62cacab86d71a957923e5350c56bbd9e6b45b1"
+  }
+}
