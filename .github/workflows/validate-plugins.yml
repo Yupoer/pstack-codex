@@ -10,9 +10,18 @@ on:
       - "pstack/**"
       - "harness/**"
       - "scripts/**"
+      - "codex/**"
       - ".github/workflows/validate-plugins.yml"
 
 jobs:
+  codex-install:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify standalone Codex installation
+        shell: pwsh
+        run: ./codex/test-sync-pstack.ps1 -SourceRoot $PWD.Path -TestRoot (Join-Path $env:RUNNER_TEMP 'pstack-codex-install')
+
   validate:
     runs-on: ubuntu-latest
     steps:

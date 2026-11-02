@@ -1,4 +1,10 @@
-# Cursor plugins
+# pstack for Codex
+
+This fork provides a standalone Windows Codex installation of pstack. See [Codex installation and updates](codex/README.md). Skills, model roles, and updates are owned by Codex. No second coding application is required.
+
+The upstream plugin sources and history remain below for future merges.
+
+## Cursor plugins upstream
 
 Official Cursor plugins for popular developer tools, frameworks, and SaaS products. Each plugin is a standalone directory at the repository root with its own `.cursor-plugin/plugin.json` manifest.
 

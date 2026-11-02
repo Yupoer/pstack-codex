@@ -1,1 +1,3 @@
 harness/pstack/** linguist-generated=true
+pstack/**/*.md text eol=lf
+harness/pstack/**/*.md text eol=lf

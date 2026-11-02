@@ -1,47 +1,57 @@
-# 更新自己的 pstack fork
+# 在 Codex 使用 pstack
 
-這是 `cursor/plugins` 的公開 fork。保留完整上游 Git 歷史，並在 `codex/` 保存本機的 Codex 整合與模型設定。
+這個 fork 的 Codex 安裝獨立管理技能、模型設定與更新。基底是上游 pstack v0.15.36。原始 `pstack/` 與上游 Git 歷史保留，方便之後合併新版。
 
-目前基底是 pstack **v0.15.36**，上游 commit 為 `4dd1d05818d19792e7cd6e818f1667f95f7e1dbe`。本機已安裝套件的 559 個檔案與 `harness/pstack/claude-code/` 逐檔 SHA-256 比對一致，排除執行期 `.in_use/`。
+## 安裝與更新
 
-## 同步官方新版
-
-在這個 clone 的根目錄執行以下指令。`origin` 是 `Yupoer/pstack-codex`，`upstream` 是 `cursor/plugins`。
+在 Windows PowerShell 於這個 checkout 根目錄執行：
 
 ```powershell
-git status --short
-git fetch upstream
-git merge upstream/main
-git push origin main
+& .\codex\sync-pstack.ps1 -SourceRoot $PWD.Path
 ```
 
-先處理尚未提交的工作。若 merge 出現衝突，解決衝突並完成提交後再 push。不要用 `reset --hard` 或 force push 取代合併，否則可能丟失自己的修改。
-
-GitHub 的 fork 不會自動同步。合併上游會保留自己的提交；雙方修改相同位置時仍可能需要處理衝突。重新 clone 後，若尚無 `upstream`，先執行 `git remote add upstream https://github.com/cursor/plugins.git`。
-
-## 更新這台 Windows 的安裝
-
-目前本機的插件來源仍是官方 `cursor-plugins` marketplace。Codex 的 adapter 與模型設定位於插件安裝目錄之外，因此本次官方插件更新完整保留了這些客製設定。
+需要 Windows PowerShell 5.1 的啟動方式時，可執行：
 
 ```powershell
-claude.exe plugin marketplace update cursor-plugins
-claude.exe plugin update pstack@cursor-plugins --scope user
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME/.codex/pstack/sync-pstack.ps1"
-claude.exe plugin list --json
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\codex\sync-pstack.ps1 -SourceRoot .
 ```
 
-更新後重新啟動 Claude Code，並重新開啟 Codex chat；若技能清單未刷新，再重啟 Codex。同步 fork 本身不會更新本機插件，`sync-pstack.ps1` 只重建技能 junction，不下載插件。
+安裝會把來源複製到 `~/.codex/pstack/versions/`，用 `runtime` junction 指向這一版，再把技能連到 `~/.agents/skills/`。`codex/skills/` 的 Codex 專用入口覆蓋同名上游技能。每個安裝的技能都會先載入 [Codex runtime](runtime.md)。
 
-如果日後直接修改 fork 裡的 pstack 技能，必須另將本機安裝來源切換至含有那些修改的套件。本機目前的官方來源不會安裝 fork 專有的技能修改。
+模型設定存於 `~/.codex/pstack/pstack-models.md`。首次安裝沿用 repo 裡所有角色的 `gpt-6.1-sol high`，panel 保留兩個 agent。重跑安裝會保留已存在的模型設定。
 
-## 保存與還原 Codex 整合
+安裝程式只取代自己管理的 junction，遇到同名的其他技能會在安裝前停止。原本指向官方 pstack 快取的舊 junction 會移除，目標檔案保留。舊 adapter、herdr 委派腳本與共用教學會移到備份。這些舊整合不再參與 Codex 執行。
 
-`codex-adapter.md`、`sync-pstack.ps1`、`pstack-delegate.ps1` 和 `guide/` 來自既有的 `~/.codex/pstack/`。`rules/pstack-models.md` 來自 `~/.claude/rules/pstack-models.md`。目前所有角色使用 `gpt-6.1-sol high`，panel 保留兩個 agent。
+`~/.codex/AGENTS.md` 只更新 pstack 區塊，其餘個人指示保留。開啟新的 Codex chat 以載入新指示；若技能清單仍未刷新，再重新啟動 Codex。
 
-還原前先備份目標檔案並查看差異，再把整合檔與 `guide/` 複製至 `~/.codex/pstack/`，把模型設定複製至 `~/.claude/rules/pstack-models.md`。先透過 Claude Code 安裝並啟用 pstack，再執行 `sync-pstack.ps1`。這個腳本依賴 Claude Code 的 `installed_plugins.json` 安裝紀錄；本 repo 不攜帶該機器專屬紀錄。
+日後從 checkout 更新來源並安裝：
 
-`guide/template.md` 是歷史教學範本，其中的預設模型可能與目前設定不同。執行時以 `rules/pstack-models.md` 和實際工具能力為準。herdr 委派另需對應 CLI，封存腳本不代表已驗證所有委派流程。
+```powershell
+git pull --ff-only origin main
+& .\codex\sync-pstack.ps1 -SourceRoot $PWD.Path
+```
 
-本次驗證包含官方插件 manifest、58 個 Codex junction、模型設定的 SHA-256，以及本機套件與上游的逐檔比對。未逐一執行全部技能。
+已安裝的同步腳本也可搭配明確的 checkout 路徑使用：
 
-上游 pstack 的 MIT 授權與作者資訊保留於原目錄。這個 fork 沒有設定自動同步排程。
+```powershell
+& "$HOME/.codex/pstack/sync-pstack.ps1" -SourceRoot 'C:\repos\pstack-codex'
+```
+
+## 視覺設計指引
+
+共用指引位於 [`pstack/skills/poteto-mode/references/visual-design.md`](../pstack/skills/poteto-mode/references/visual-design.md)。Poteto mode、Feature、Prototype 與 Experience First 已接入。來源貼文的字型、token、API 與 iframe 限制只在實際宿主支援時適用。
+
+## 檢查與復原
+
+CI 效能的共用流程位於 [`CI performance diagnosis`](../pstack/skills/benchmark-checklist/references/ci-performance.md)，已接入 Poteto mode、Perf issue、Benchmark checklist 與 PR 流程。純審核先交付報告；實作依既有授權處理。付費資源與檢查覆蓋範圍的變更會明確列出供決策。
+
+```powershell
+& .\codex\test-sync-pstack.ps1 -SourceRoot $PWD.Path -TestRoot 'C:\temp\pstack-check'
+node scripts/generate-pstack-harness-trees.mjs --check
+```
+
+第一個命令在獨立測試目錄檢查安裝、舊 junction 遷移、衝突保護與重跑。第二個命令檢查保留的上游 harness 產物，該產物不是 Codex 的安裝來源。修改 `pstack/` 後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 再提交。
+
+每次安裝都保留上一版 runtime 與 `~/.codex/pstack/backups/<安裝編號>/`。備份中的 `junctions.json` 保存舊連結目標，`AGENTS.md` 保存修改前指示。`install.json` 記錄目前來源、runtime 與備份路徑。復原時先確認目標，再重建對應 junction 並還原備份檔案。
+
+本機驗證證明安裝內容與檔案路由，不代表已逐一執行全部技能。上游 MIT 授權保留於 `pstack/LICENSE`。
