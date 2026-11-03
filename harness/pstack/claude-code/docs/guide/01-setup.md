@@ -2,6 +2,8 @@
 
 In this page you install the plugin, pick which models pstack uses, and run your first task. Setup is one command plus a short conversation.
 
+For a Codex fork already installed locally, use [`/maintain-pstack`](../../skills/maintain-pstack/SKILL.md) to check original upstream, synchronize the fork, and install the merged version. It preserves the Codex runtime and local model choices.
+
 ## Install the plugin
 
 In a Cursor chat, run:

@@ -24,7 +24,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\codex\sync-pstack.ps1 
 
 `~/.codex/AGENTS.md` 只更新 pstack 區塊，其餘個人指示保留。開啟新的 Codex chat 以載入新指示；若技能清單仍未刷新，再重新啟動 Codex。
 
-日後從 checkout 更新來源並安裝：
+需要檢查原始上游、修改來源、同步 fork PR、合併並更新本機時，使用 [maintain-pstack](../pstack/skills/maintain-pstack/SKILL.md)。它會分別確認上游、遠端合併與本機安裝，保留既有模型設定和個人指示。可直接要求「用 maintain-pstack 檢查上游並同步 fork 和本機，驗證後合併」。
+
+只要安裝 fork 已合併的版本時，從乾淨的 checkout 更新來源並安裝：
 
 ```powershell
 git pull --ff-only origin main
@@ -46,6 +48,8 @@ git pull --ff-only origin main
 共用指引位於 [`pstack/skills/poteto-mode/references/visual-design.md`](../pstack/skills/poteto-mode/references/visual-design.md)。Poteto mode、Feature、Prototype 與 Experience First 已接入。來源貼文的字型、token、API 與 iframe 限制只在實際宿主支援時適用。
 
 ## 檢查與復原
+
+CI/CD 失敗追蹤的共用流程位於 [CI recovery](../pstack/skills/poteto-mode/references/ci-recovery.md)，已接入 Poteto mode、Bug fix、Babysit、PR 與 Shipping。它區分 workflow 綠燈、原失敗關卡通過與修正歸因。歷史統計保留取樣方式、逐筆證據與未解決項目，不把專案個案寫成全域規則。
 
 CI 效能的共用流程位於 [`CI performance diagnosis`](../pstack/skills/benchmark-checklist/references/ci-performance.md)，已接入 Poteto mode、Perf issue、Benchmark checklist 與 PR 流程。純審核先交付報告；實作依既有授權處理。付費資源與檢查覆蓋範圍的變更會明確列出供決策。
 

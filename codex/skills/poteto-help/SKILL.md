@@ -10,7 +10,8 @@ For a help question, answer from the relevant installed files. For a request to 
 
 Read [Codex runtime](../../docs/harness/codex.md) and `~/.codex/pstack/install.json` for the active installation. Skills live under `~/.agents/skills/`, and role choices live in `~/.codex/pstack/pstack-models.md`.
 
-- For installation or updates, use `~/.codex/pstack/sync-pstack.ps1 -SourceRoot <checkout>`. Read the checkout's `codex/README.md` for recovery.
+- For source updates, original upstream checks, fork PRs, merges, and local synchronization, use [maintain-pstack](../maintain-pstack/SKILL.md).
+- For an install-only request, use `~/.codex/pstack/sync-pstack.ps1 -SourceRoot <checkout>`. Read the checkout's `codex/README.md` for recovery.
 - For model or effort changes, use [setup-pstack](../setup-pstack/SKILL.md).
 - For a new task, use [poteto-mode](../poteto-mode/SKILL.md) with the goal and an observable completion check.
 - For architecture, explanations, reviews, and coverage, inspect the matching installed skill's description before recommending it.
