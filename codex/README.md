@@ -37,6 +37,10 @@ git pull --ff-only origin main
 & "$HOME/.codex/pstack/sync-pstack.ps1" -SourceRoot 'C:\repos\pstack-codex'
 ```
 
+## 非同步熱路徑掃描
+
+可重用的 [async hot-path prompt](../pstack/skills/poteto-mode/references/async-hot-paths.md) 會盤點非同步入口、確認依賴、修正多餘的循序等待並驗證行為。安裝後可從 `~/.agents/skills/poteto-mode/references/async-hot-paths.md` 讀取。完整 prompt 包含完成後建立 GitHub issue；只做本機掃描時移除該段。
+
 ## 視覺設計指引
 
 共用指引位於 [`pstack/skills/poteto-mode/references/visual-design.md`](../pstack/skills/poteto-mode/references/visual-design.md)。Poteto mode、Feature、Prototype 與 Experience First 已接入。來源貼文的字型、token、API 與 iframe 限制只在實際宿主支援時適用。

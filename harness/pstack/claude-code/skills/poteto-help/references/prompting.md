@@ -2,6 +2,8 @@
 
 A prompt states the intent and the check for done. The playbook supplies the steps, so a few plain sentences beat a spec.
 
+For a production async audit, use the [sequential async calls prompt](../../poteto-mode/references/async-hot-paths.md). It includes dependency checks, behavior verification, and an optional GitHub issue report.
+
 ## Put in
 
 - The goal. Say what is wrong or what the user wants.
