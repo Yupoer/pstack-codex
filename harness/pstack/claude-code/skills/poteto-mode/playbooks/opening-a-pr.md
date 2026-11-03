@@ -31,6 +31,8 @@ After the sections, attach videos or screenshots when they prove a claim. Full S
 
 Run the repository's existing applicable local checks before pushing, and inspect their result. When CI latency is the task, use [CI performance diagnosis](../../benchmark-checklist/references/ci-performance.md). Installing hooks or reducing CI coverage needs the corresponding task scope.
 
+For CI or CD changes, use [CI recovery](../references/ci-recovery.md). Check workflow dependencies, selected toolchains, required PR metadata, and affected coverage contracts when relevant. Read the exact head's job results before claiming a gate passed. A skipped gate does not prove recovery.
+
 **Babysit.** Opening a PR does not start a babysit. Post the URL and keep building. Finish the phase or stack first. Run a separate babysit pass only when the user asks for one after the whole stack exists. A babysit for each new PR stalls the build and spends checks on commits later waves restart. Push back when feedback drifts from intent.
 
 A subagent that opens a PR runs `/deslop` and `/no-comments`, and posts the URL. It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.
