@@ -24,7 +24,9 @@ Remaining triggers:
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - Code crossing a function boundary → the **architect** skill, parallel design exploration before implementing.
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
-- Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
+- An explicit adversarial-review request, or a specific consequential failure that existing checks leave unresolved → the **interrogate** skill. Name the failure to probe. A disagreement about design alone does not require a panel. Stop after the verified findings unless changed code or new evidence warrants another pass.
+- A change to consequential state transitions, concurrent events, retries, cancellation, or consistency → inspect the project's existing formal verification. Rerun the relevant check and use **maintain-formal-verification-skill** when covered code changed without rechecking the model. If no check covers the risk, assess **create-formal-verification-skill** for one useful property. Choose the tool and scope from the failure, not a quota of models or tests. Preserve model-to-code mappings, assumptions, and bounded claims.
+- A meaningful execution constraint, such as a high-frequency path or an import boundary → the **principle-encode-lessons-in-structure** skill. Reuse the project's conventions and enforce the actual constraint in its own tools.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
 - Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill (`/technical-writing`).
@@ -122,7 +124,7 @@ Every playbook ends with a reply written this way, PR link as `https://github.co
 
 ## Comments
 
-Comments follow the same rule as the reply. Write them clean as you go. Keep a comment only for a non-obvious *why* the code can't show. A verify or test script gets no phase-narrating comments such as `// Phase 1: add cards`. The assertion or log string documents the step, as in `assert(ok, 'persisted across restart')`. This applies to every file you produce, including the delegate's diff.
+Comments follow the same rule as the reply. Prefer clear names and structure over narration. Tests prove behavior, not the wording of an explanation. Keep legal notices, public API contracts, necessary tool directives, and concise reasons for constraints the code cannot express. Do not create indirection or redundant tests just to remove a comment. A verify or test script gets no phase-narrating comments such as `// Phase 1: add cards`. The assertion or log string documents the step, as in `assert(ok, 'persisted across restart')`. This applies to every file you produce, including the delegate's diff.
 
 ## Playbooks
 

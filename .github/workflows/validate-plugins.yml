@@ -14,6 +14,10 @@ on:
       - "codex/**"
       - ".github/workflows/validate-plugins.yml"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   codex-install:
     runs-on: windows-latest
@@ -35,11 +39,5 @@ jobs:
       - name: Install dependencies
         run: npm install --no-save ajv ajv-formats fast-check@4.5.3
 
-      - name: Validate plugin definitions
-        run: node scripts/validate-plugins.mjs
-
-      - name: Check generated pstack harness trees
-        run: node scripts/generate-pstack-harness-trees.mjs --check
-
-      - name: Test pstack skill scripts
-        run: node --disable-warning=ExperimentalWarning --test pstack/skills/*/scripts/test/*.test.ts
+      - name: Run shared pstack verification
+        run: node scripts/verify-pstack.mjs full

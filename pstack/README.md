@@ -147,7 +147,7 @@ to keep [`/poteto-mode`](./skills/poteto-mode/SKILL.md) on across turns, pick it
 | [`/teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. runs how + why and weaves one plain explanation, built up diagram by diagram. |
 | [`/tdd`](./skills/tdd/SKILL.md) | you're fixing a bug and there's a cheap local test path. write the failing test first, then the fix. |
 | [`/benchmark-checklist`](./skills/benchmark-checklist/SKILL.md) | you ran a benchmark or measured a speedup or regression. vets the number (limiter, tuning, errors, repeat runs, end-to-end relevance) before you report or act on it. |
-| [`/no-comments`](./skills/no-comments/SKILL.md) | strip comments before review; spawns Comment Sicko, fixes accepted findings, offers encodings for claimed constraints. |
+| [`/no-comments`](./skills/no-comments/SKILL.md) | remove redundant narration before review while keeping necessary contracts and reasons. spawns Comment Sicko and fixes evidence-backed clarity findings within scope. |
 | [`/typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | you're reading or editing typescript. grounds the type-system-discipline principle in syntax. |
 | [`/figure-it-out`](./skills/figure-it-out/SKILL.md) | no bundled playbook fits. designs a rigorous, auditable playbook for the task. |
 | [`/show-me-your-work`](./skills/show-me-your-work/SKILL.md) | you want a reviewable decision trail. logs decisions to a tsv you can commit. |
@@ -270,6 +270,12 @@ install `cursor-team-kit` alongside pstack if you want the full set.
 ## why are there no planning skills?
 
 cursor already has a great plan mode which works great with pstack. but personally, i don't believe in planning. the best spec is code. if you do want to make a plan, [`/poteto-mode`](./skills/poteto-mode/SKILL.md) covers it, but it's not a default. 
+
+## verify this fork
+
+from the repository root, install the ci dependencies with `npm install --no-save ajv ajv-formats fast-check@4.5.3`. run `node scripts/verify-pstack.mjs quick` for plugin definitions, documentation consistency, and generated harness freshness. after editing shared sources, regenerate with `node scripts/generate-pstack-harness-trees.mjs`.
+
+`node scripts/verify-pstack.mjs full` adds the existing node skill-script suite and the verifier's cli tests. github runs this on linux with node 22 and keeps the windows codex installation check as a separate job. use affected checks during edits and quick checks before push. reuse unchanged evidence, while retaining remote verification of the actual revision.
 
 ## make it yours
 

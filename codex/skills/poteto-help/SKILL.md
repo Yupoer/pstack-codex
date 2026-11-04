@@ -13,6 +13,7 @@ Read [Codex runtime](../../docs/harness/codex.md) and `~/.codex/pstack/install.j
 - For source updates, original upstream checks, fork PRs, merges, and local synchronization, use [maintain-pstack](../maintain-pstack/SKILL.md).
 - For an install-only request, use `~/.codex/pstack/sync-pstack.ps1 -SourceRoot <checkout>`. Read the checkout's `codex/README.md` for recovery.
 - For model or effort changes, use [setup-pstack](../setup-pstack/SKILL.md).
+- For initial project setup, [setup-pstack](../setup-pstack/SKILL.md) reuses existing verification and identifies missing real-app or formal checks. Model-only changes keep their scope.
 - For a new task, use [poteto-mode](../poteto-mode/SKILL.md) with the goal and an observable completion check.
 - For architecture, explanations, reviews, and coverage, inspect the matching installed skill's description before recommending it.
 
