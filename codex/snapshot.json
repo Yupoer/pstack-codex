@@ -5,11 +5,11 @@
   "customFiles": {
     "codex/.gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
     "codex/guide/agents-block.txt": "798d54a62faebe747bee40dca80446d50822bc1b5823c46de490c421d21bb606",
-    "codex/README.md": "4ccf72fc37d41350ce400c57d451bc37e43f4e9eb71b93116f4a061ad90427d8",
+    "codex/README.md": "b7570680895ab71fd425cb36b10fc4aac7d56cdcce18fa15199bea703d24d895",
     "codex/rules/pstack-models.md": "1ee5693865da16224a6c6cec99b3e8a9ddeccc78448c3e3b44141346dd0a497d",
     "codex/runtime.md": "c8d4c6cac4befa02531a5037d4d28a0a08badca522b5cae8148775330c87d326",
-    "codex/skills/poteto-help/SKILL.md": "6867bf86663f7f122ea48527b01567985a48f9def8a158f134322de90329f1b1",
-    "codex/skills/setup-pstack/SKILL.md": "3ccd8e427b5dc99430880db4104575ad0a75709dc943d41a5e283d2f2ab6fcf6",
+    "codex/skills/poteto-help/SKILL.md": "6c4a505040747d5dd2a63467efb480eabf6462a5ae73ee2f132b8a4fc3c66bee",
+    "codex/skills/setup-pstack/SKILL.md": "bf2412bee6088b2576a49e0eb189bc9c837432107942c0b8e77ccef3e6fe2532",
     "codex/sync-pstack.ps1": "6b400a5504e1b71a4518d43383065fbf8db01933e744525e614bea78c03203be",
     "codex/test-sync-pstack.ps1": "aca0d12a5caf7ed9840ea54b1cc5c1d11345abd7701990ab857e5d20559494d8"
   },

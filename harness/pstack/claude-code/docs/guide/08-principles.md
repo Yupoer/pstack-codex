@@ -67,6 +67,8 @@ And one meta principle:
 
 - [Encode Lessons in Structure](../../skills/principle-encode-lessons-in-structure/SKILL.md) turns advice you've repeated twice into a lint, check, or script. [`/correct`](../../skills/correct/SKILL.md) applies it to a whole repo, as shown in [Make it yours](./09-make-it-yours.md#fix-the-environment-with-correct).
 
+Paths and types can also carry enforceable execution context. For example, a project with a measured allocation problem may mark per-frame code `*.hot.ts` and scope an allocation lint to those files. Reuse useful existing boundaries, prove the rule catches its target, and retain runtime checks for costs that syntax cannot reveal. The suffix and restriction belong to that project.
+
 Don't memorize the list. Skim it now, then come back when you catch the agent doing something a name here would have prevented. That's how the vocabulary sticks.
 
 Next: [Make it yours](./09-make-it-yours.md).

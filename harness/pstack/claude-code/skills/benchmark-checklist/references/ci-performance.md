@@ -26,6 +26,14 @@ Check these candidates where the evidence points:
 
 Do not prescribe vendors, tools, cache formats, or worker settings from another repository's timings. Preserve dependency integrity, runner trust, required checks, and actual test execution.
 
+## Use local feedback without a second pipeline
+
+Reuse the project's existing verification commands. During edits, run affected checks. Before push, run a quick group of cheap deterministic checks and the relevant behavior tests. Keep the full relevant suite and platform-specific gates in CI. Centralize command definitions so local and remote invocations cannot drift; do not maintain a separate imitation of the workflow.
+
+Keep valid results while the checked content, dependencies, configuration, and relevant environment are unchanged. Small checks may intentionally run in both places to verify the saved revision in a clean runner. Do not use a local success file to bypass remote required checks. Avoid running the full suite locally on every edit and then repeating it remotely without a distinct reason.
+
+Where measurements support it, remove duplicate push and PR executions and cancel superseded verification runs for the same PR. Preserve release jobs and distinct event requirements. These are changes to the owning workflow within the authorized scope, not blanket defaults for every repository.
+
 ## Report and verify
 
 For each finding, give the observed cost, supporting run, owning file and line, proposed change, and estimated saving with its assumptions. Label estimates separately from measurements. Identify added spend and reduced coverage explicitly. Obtain a decision for those changes unless existing authorization already covers them.

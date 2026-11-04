@@ -34,12 +34,11 @@ Use the repository's applicable checks and CI workflow as the source of truth. F
 
 ```powershell
 node scripts/generate-pstack-harness-trees.mjs
-node scripts/generate-pstack-harness-trees.mjs --check
-node scripts/check-pstack-docs.mjs
+node scripts/verify-pstack.mjs quick
 & .\codex\test-sync-pstack.ps1 -SourceRoot $PWD.Path -TestRoot '<new isolated directory>'
 ```
 
-Inspect generated changes rather than editing them. Run changed executable resources and the existing checks relevant to them. Validate new skill frontmatter and links in both the checkout and a test installation. Installed skills cannot assume the checkout's guides or `codex/` directory were copied into the runtime.
+Inspect generated changes rather than editing them. The shared verifier's `full` mode adds the Node skill-script and verifier tests; the Windows installer remains a separate gate. Use affected local tests and the full remote gate without repeating an unchanged full suite merely to increase evidence. Run changed executable resources and the existing checks relevant to them. Validate new skill frontmatter and links in both the checkout and a test installation. Installed skills cannot assume the checkout's guides or `codex/` directory were copied into the runtime.
 
 For substantial skill changes, use an independent realistic exercise with isolated local repositories or read-only decisions. A frontmatter pass alone does not show that the skill handles upstream changes, user work, or a partially completed sync correctly. Keep live pushes, merges, and installation within the user's actual requested scope.
 

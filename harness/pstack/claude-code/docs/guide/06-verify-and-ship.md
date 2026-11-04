@@ -95,6 +95,8 @@ Apps change, and feature maps go out of date. Run this at least once a day, idea
 
 ## Prove a property with a formal verification skill
 
+For consequential state transitions, event interleavings, retries, cancellation, or consistency, `/poteto-mode` checks the project's existing formal verification before choosing a new check. Covered code changes may require `/maintain-formal-verification-skill` even when the old model still passes. The property chooses the tool; TLA+ is useful for event ordering, not a requirement for every module. Keep the model's scope and its connection to code visible.
+
 A verification skill proves the paths you drive. Some bugs live on paths nobody drives: two retries that overlap, a lock that expires mid-write, a state change that arrives out of order. Tests rarely reach those cases. For code where such a bug is costly, run:
 
 ```text

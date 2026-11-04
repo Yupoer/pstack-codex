@@ -49,16 +49,33 @@ git pull --ff-only origin main
 
 ## 檢查與復原
 
+專案初始設定會先沿用既有驗證，再評估缺少的實際操作驗證或形式驗證。重要狀態轉換、並行事件、重試、取消與一致性問題可接到既有 formal verification 技能。只調整模型或 effort 時維持原本範圍。模型、程式碼對應、假設和實際 lint 設定留在各專案。
+
+`interrogate` 保留執行與重跑證據的要求。只有明確要求，或既有檢查後仍有具體且重要的未解問題時才啟動。註解檢視保留授權、公開 API 契約、必要工具指示，以及程式碼無法表達的限制原因。
+
+本機與 GitHub 使用同一個驗證入口。先安裝與 CI 相同的測試依賴：
+
+```powershell
+npm install --no-save ajv ajv-formats fast-check@4.5.3
+node scripts/verify-pstack.mjs quick
+```
+
+`quick` 執行 plugin 定義、文件一致性與 generated harness freshness 檢查。修改共享來源後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 更新產物。`full` 再執行既有 Node skill scripts 與驗證入口本身的行為測試。GitHub Linux job 使用 `full`，Windows 安裝檢查維持獨立 job。CI 的 Node 主版本為 22，重現環境問題時使用相同版本。
+
+編輯期間跑受影響檢查，推送前跑 `quick`；完整套件與跨平台驗證交給 CI。只有需要相同環境重現或確認特定風險時，才在本機另跑完整套件。相同內容、依賴、設定與相關環境未變時沿用有效證據。GitHub 仍驗證實際提交，並取消同一 PR 過期的驗證 run。
+
 CI/CD 失敗追蹤的共用流程位於 [CI recovery](../pstack/skills/poteto-mode/references/ci-recovery.md)，已接入 Poteto mode、Bug fix、Babysit、PR 與 Shipping。它區分 workflow 綠燈、原失敗關卡通過與修正歸因。歷史統計保留取樣方式、逐筆證據與未解決項目，不把專案個案寫成全域規則。
+
+修復收尾會記錄防再犯決策。先判斷既有檢查是否足夠或需要修正，再決定是否補一個有價值的約束；重複錯誤類型接到 `correct`。基礎設施故障不會自動產生新 lint。
 
 CI 效能的共用流程位於 [`CI performance diagnosis`](../pstack/skills/benchmark-checklist/references/ci-performance.md)，已接入 Poteto mode、Perf issue、Benchmark checklist 與 PR 流程。純審核先交付報告；實作依既有授權處理。付費資源與檢查覆蓋範圍的變更會明確列出供決策。
 
 ```powershell
 & .\codex\test-sync-pstack.ps1 -SourceRoot $PWD.Path -TestRoot 'C:\temp\pstack-check'
-node scripts/generate-pstack-harness-trees.mjs --check
+node scripts/verify-pstack.mjs quick
 ```
 
-第一個命令在獨立測試目錄檢查安裝、舊 junction 遷移、衝突保護與重跑。第二個命令檢查保留的上游 harness 產物，該產物不是 Codex 的安裝來源。修改 `pstack/` 後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 再提交。
+第一個命令在獨立測試目錄檢查安裝、舊 junction 遷移、衝突保護與重跑。第二個命令執行共享快檢，其中保留的上游 harness 產物不是 Codex 的安裝來源。修改 `pstack/` 後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 再提交。
 
 每次安裝都保留上一版 runtime 與 `~/.codex/pstack/backups/<安裝編號>/`。備份中的 `junctions.json` 保存舊連結目標，`AGENTS.md` 保存修改前指示。`install.json` 記錄目前來源、runtime 與備份路徑。復原時先確認目標，再重建對應 junction 並還原備份檔案。
 
