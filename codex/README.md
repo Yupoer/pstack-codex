@@ -18,15 +18,15 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\codex\sync-pstack.ps1 
 
 安裝會把來源複製到 `~/.codex/pstack/versions/`，用 `runtime` junction 指向這一版，再把技能連到 `~/.agents/skills/`。`codex/skills/` 的 Codex 專用入口覆蓋同名上游技能。每個安裝的技能都會先載入 [Codex runtime](runtime.md)。
 
-模型設定存於 `~/.codex/pstack/pstack-models.md`。首次安裝沿用 repo 裡所有角色的 `gpt-6.1-sol high`，panel 保留兩個 agent。重跑安裝會保留已存在的模型設定。
+模型設定存於 `~/.codex/pstack/pstack-models.md`。首次安裝沿用 repo 裡所有角色的 `gpt-6.1-sol max`，panel 保留兩個 agent。重跑安裝會保留已存在的模型設定。所有模型只能選各供應商同系列、同級別的最新版；不可因不可用、配額或速度退回舊版。2026-11-06 的 OpenAI 版本為 Luna 6、Terra 6.1、Sol 6.1、Astra 6。確認更新版本後取代舊版，不把這份日期清單當永久上限。
 
 安裝程式只取代自己管理的 junction，遇到同名的其他技能會在安裝前停止。原本指向官方 pstack 快取的舊 junction 會移除，目標檔案保留。舊 adapter、herdr 委派腳本與共用教學會移到備份。這些舊整合不再參與 Codex 執行。
 
 `~/.codex/AGENTS.md` 只更新 pstack 區塊，其餘個人指示保留。開啟新的 Codex chat 以載入新指示；若技能清單仍未刷新，再重新啟動 Codex。
 
-需要檢查原始上游、修改來源、同步 fork PR、合併並更新本機時，使用 [maintain-pstack](../pstack/skills/maintain-pstack/SKILL.md)。它會分別確認上游、遠端合併與本機安裝，保留既有模型設定和個人指示。可直接要求「用 maintain-pstack 檢查上游並同步 fork 和本機，驗證後合併」。
+需要檢查原始上游、修改來源、推送 fork 並更新本機時，使用 [maintain-pstack](../pstack/skills/maintain-pstack/SKILL.md)。它會分別確認上游、本機驗證、直接 push 預設分支與本機安裝，保留既有模型設定和個人指示。這個 fork 不使用 PR 或 CI/CD。可直接要求「用 maintain-pstack 檢查上游並同步 fork 和本機，本機驗證後直接推送」。
 
-只要安裝 fork 已合併的版本時，從乾淨的 checkout 更新來源並安裝：
+只要安裝 fork 已發布的版本時，從乾淨的 checkout 更新來源並安裝：
 
 ```powershell
 git pull --ff-only origin main
@@ -53,18 +53,18 @@ git pull --ff-only origin main
 
 `interrogate` 保留執行與重跑證據的要求。只有明確要求，或既有檢查後仍有具體且重要的未解問題時才啟動。註解檢視保留授權、公開 API 契約、必要工具指示，以及程式碼無法表達的限制原因。
 
-本機與 GitHub 使用同一個驗證入口。先安裝與 CI 相同的測試依賴：
+這個 fork 只使用本機驗證，不設定 GitHub Actions 或其他 CI/CD。先安裝檢查所需依賴：
 
 ```powershell
 npm install --no-save ajv ajv-formats fast-check@4.5.3
 node scripts/verify-pstack.mjs quick
 ```
 
-`quick` 執行 plugin 定義、文件一致性與 generated harness freshness 檢查。修改共享來源後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 更新產物。`full` 再執行既有 Node skill scripts 與驗證入口本身的行為測試。GitHub Linux job 使用 `full`，Windows 安裝檢查維持獨立 job。CI 的 Node 主版本為 22，重現環境問題時使用相同版本。
+`quick` 執行 plugin 定義、文件一致性與 generated harness freshness 檢查。修改共享來源後，先執行 `node scripts/generate-pstack-harness-trees.mjs` 更新產物。`full` 再執行既有 Node skill scripts 與驗證入口本身的行為測試；修改這些腳本或整合行為時在本機使用。Windows 安裝檢查仍在隔離目錄執行。
 
-編輯期間跑受影響檢查，推送前跑 `quick`；完整套件與跨平台驗證交給 CI。只有需要相同環境重現或確認特定風險時，才在本機另跑完整套件。相同內容、依賴、設定與相關環境未變時沿用有效證據。GitHub 仍驗證實際提交，並取消同一 PR 過期的驗證 run。
+編輯期間跑受影響檢查，推送前跑 `quick` 並確認最終 diff。相同內容、依賴、設定與相關環境未變時沿用有效證據。確認遠端預設分支仍是祖先後，以一般 fast-forward push 發布，重讀遠端 SHA，再由已發布的乾淨來源安裝。遠端已前進時先整合並重跑受影響檢查，不 force-push，也不改用 PR。
 
-CI/CD 失敗追蹤的共用流程位於 [CI recovery](../pstack/skills/poteto-mode/references/ci-recovery.md)，已接入 Poteto mode、Bug fix、Babysit、PR 與 Shipping。它區分 workflow 綠燈、原失敗關卡通過與修正歸因。歷史統計保留取樣方式、逐筆證據與未解決項目，不把專案個案寫成全域規則。
+其他使用 CI/CD 的專案可使用共用流程 [CI recovery](../pstack/skills/poteto-mode/references/ci-recovery.md)，已接入 Poteto mode、Bug fix、Babysit、PR 與 Shipping。它區分 workflow 綠燈、原失敗關卡通過與修正歸因。歷史統計保留取樣方式、逐筆證據與未解決項目，不把專案個案寫成全域規則。
 
 修復收尾會記錄防再犯決策。先判斷既有檢查是否足夠或需要修正，再決定是否補一個有價值的約束；重複錯誤類型接到 `correct`。基礎設施故障不會自動產生新 lint。
 

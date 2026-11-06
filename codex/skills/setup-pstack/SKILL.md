@@ -8,11 +8,13 @@ disable-model-invocation: true
 
 Read [Codex runtime](../../docs/harness/codex.md) and `~/.codex/pstack/pstack-models.md`. Preserve existing choices except the roles or budget the user wants to change.
 
-Use the current native subagent tool's supported models and effort values. Do not derive provider-specific slugs or run another provider's CLI. An `auto` or `inherit-parent` role omits the model override. Keep a panel's seat count unless the user changes it.
+Use only the latest released version in each selected provider's model family or tier, as required by the runtime's model policy, and the current native tool's supported identifiers and effort values. Verify new or uncertain releases against official sources. Reject older versions even when available. Do not derive provider-specific slugs or run another provider's CLI. An `auto` or `inherit-parent` role omits the override only when the resolved parent/default model is verified compliant. If the latest version cannot run, report the limitation and stop that call instead of downgrading. Keep a panel's seat count unless the user changes it.
 
 When the requested configuration is clear and supported, update `~/.codex/pstack/pstack-models.md` directly. Ask only for a consequential choice that the request and current configuration do not resolve. Keep plain role lines without frontmatter, using the existing role labels and comma-separated panel entries.
 
 Read back the saved file and report the changed roles and any unsupported choice. Do not spawn agents merely to prove a configuration write. The next actual delegation verifies execution. Changes take effect when the runtime reads the model file in a new chat.
+
+For an explicitly global model-version request, also inspect user-level subagent defaults, custom agents, automations, and the separate memory extraction and consolidation model settings. Update only settings within the requested scope; do not silently change tier or disable a feature. A role-only request stays role-only. Distinguish saved configuration from verified execution and report internal model selections the host does not expose for configuration.
 
 ## Connect project verification
 

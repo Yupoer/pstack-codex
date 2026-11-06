@@ -27,11 +27,13 @@ Run `~/.codex/pstack/sync-pstack.ps1 -SourceRoot <checkout>` to install the chec
 
 ## Model roles
 
-Read `~/.codex/pstack/pstack-models.md` before the first delegation. It owns the role choices. The supplied configuration retains `gpt-6.1-sol high` for every role and two seats for panels. Use native model and reasoning-effort fields when supported. An `auto` or `inherit-parent` role uses the parent model.
+Read `~/.codex/pstack/pstack-models.md` before the first delegation. It owns the role choices. The supplied configuration retains `gpt-6.1-sol max` for every role and two seats for panels. Use native model and reasoning-effort fields when supported.
 
-Use only models exposed by the current tools. Upstream provider-specific defaults do not authorize another provider, a shell-based delegate, or a hidden CLI process. If a configured model cannot run, use the current model and state the limitation. A same-model panel is independent review, not provider diversity. Keep its requested seat count.
+Use only the latest released version within the selected provider's model family or tier, and only identifiers exposed by the current tools. As of 2026-11-06, the approved OpenAI versions are Luna `gpt-6-luna`, Terra `gpt-6.1-terra`, Sol `gpt-6.1-sol`, and Astra `gpt-6-astra`. Newer confirmed releases replace these dated versions. Older versions remain forbidden even if listed as available. Apply the same rule to other providers; verify new or uncertain releases against official sources. Preserve the configured provider, family, tier, effort, and panel seats.
 
-Missing role lines use the current Codex model. `setup-pstack` edits this Codex-owned model file. It does not write another application's settings.
+If the latest configured model cannot run or cannot be verified, stop that call and report the limitation. Never fall back to an older version, a different provider, a shell delegate, or an opaque routing alias. An `auto`, `inherit-parent`, or omitted override is allowed only when the resolved parent/default is verified compliant. These rules override older model and fallback examples in skills and playbooks. A same-model panel is independent review, not provider diversity.
+
+Missing role lines use the current Codex model only when it satisfies this policy. `setup-pstack` edits this Codex-owned model file. It does not write another application's settings. Background memory extraction and consolidation have separate `memories.extract_model` and `memories.consolidation_model` settings; the chat model does not configure them. Instruction rules and defaults do not provide an API-level denylist or control an internal service's unexposed model choice.
 
 ## Platform limits
 
